@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Curated Canopy — Full Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif; background:#F9F7F2;
+    color:#2C3E50; line-height:1.6; }
+  .wrap { max-width:1000px; margin:0 auto; padding:28px 18px 64px; }
+  header { text-align:center; margin-bottom:24px; }
+  .brand { font-size:40px; }
+  h1 { font-family:'Playfair Display',Georgia,serif; font-size:30px; color:#5D6D7E; margin:6px 0; }
+  .greeting { color:#7A8794; font-style:italic; max-width:640px; margin:8px auto 0; }
+  .date { color:#A9A39A; font-size:13px; margin-top:6px; }
+  /* Tabs */
+  .tabs { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:24px 0; }
+  .tab { padding:9px 18px; border-radius:24px; border:1px solid #D9D3C7; background:#fff;
+    cursor:pointer; font-weight:bold; font-size:14px; color:#5D6D7E; }
+  .tab.active { background:#5D6D7E; color:#fff; border-color:#4A5763; }
+  .panel { display:none; }
+  .panel.active { display:block; }
+  /* Genre filter */
+  .genres { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:18px; }
+  .genre { padding:5px 12px; border-radius:18px; border:1px solid #D9D3C7; background:#fff;
+    cursor:pointer; font-size:12px; color:#7A8794; }
+  .genre.active { background:#87A878; color:#fff; border-color:#6E9162; }
+  /* Carousel */
+  .carousel { position:relative; }
+  .track { display:flex; gap:16px; overflow-x:auto; scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch; padding:6px 2px 16px; scroll-snap-type:x mandatory; }
+  .arrow { position:absolute; top:38%; transform:translateY(-50%); z-index:5; border:none;
+    background:rgba(93,109,126,.92); color:#fff; width:40px; height:40px; border-radius:50%;
+    font-size:18px; cursor:pointer; }
+  .arrow.left { left:-6px; } .arrow.right { right:-6px; }
+  /* Cards */
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
+  .card { flex:0 0 auto; width:230px; scroll-snap-align:start; background:#fff;
+    border:1px solid #E0E0E0; border-radius:14px; overflow:hidden; }
+  .grid .card { width:auto; }
+  .card a { color:#2C3E50; text-decoration:none; display:block; }
+  .cover { width:100%; height:200px; object-fit:cover; display:block; background:#EFECE4; }
+  .cover-tile { width:100%; height:150px; display:flex; align-items:center; justify-content:center;
+    font-size:54px; background:linear-gradient(135deg,#EFE9DD,#E3EDE0); }
+  .body { padding:12px 14px 16px; }
+  .badge { font-size:10px; color:#87A878; font-weight:bold; text-transform:uppercase; letter-spacing:.4px; }
+  .title { font-weight:bold; font-size:15px; margin:5px 0; line-height:1.35; }
+  .note { font-size:13px; color:#7A8794; }
+  .empty { text-align:center; color:#A9A39A; padding:40px 0; }
+  footer { text-align:center; color:#A9A39A; font-size:12px; margin-top:40px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">🍞🌿🐚</div>
+    <h1>The Curated Canopy</h1>
+    <div class="greeting" id="greeting"></div>
+    <div class="date">Friday, June 5, 2026 · 07:31</div>
+  </header>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="panel active" data-panel="music">
+    <div class="genres" id="genres"></div>
+    <div class="carousel">
+      <button class="arrow left"  onclick="slide(-1)">‹</button>
+      <div class="track" id="music-track"></div>
+      <button class="arrow right" onclick="slide(1)">›</button>
+    </div>
+  </div>
+  <div class="panel" data-panel="videos"><div class="grid" id="videos-grid"></div></div>
+  <div class="panel" data-panel="good_news"><div class="grid" id="good_news-grid"></div></div>
+  <div class="panel" data-panel="discovery"><div class="grid" id="discovery-grid"></div></div>
+
+  <footer>Generated automatically · Curated by Claude · Fern | The Morning Crust</footer>
+</div>
+
+<script id="data" type="application/json">{"is_am": true, "greeting": "While the coffee steeps and the first birds start their opinionated commentary on the morning, settle in \u2014 today's canopy is dense with music, from a banjo virtuoso trading American folk lore to a soprano, fresh covers from intimate Sofar stages, and a few archive curiosities to keep things wonderfully strange.", "music": [{"title": "5 Classic Covers by Sofar Artists", "note": "A roundup of classic song covers performed by Sofar artists.", "url": "https://www.youtube.com/embed/MpMPkfOXP84", "cover": "https://sofar-sounds-blog.imgix.net/wp-content/uploads/Web_Ready-14.-LILYALLEN_JANEJIMENEZ_7-2.jpg", "genre": "Various", "source": "Sofar Sounds"}, {"title": "Sofar Fringe Festival 2025", "note": "Coverage of Sofar's Fringe Festival 2025 live music event.", "url": "https://www.sofarsounds.com/blog/articles/sofar-fringe-festival-2025", "cover": "https://sofar-sounds-blog.imgix.net/wp-content/uploads/Web_Ready-Janisa_BlueMoonBrewery_Toronto_PascalineLeBras_17July2023_8.jpg", "genre": "Various", "source": "Sofar Sounds"}, {"title": "Sofar, So Long, Summer Setlist", "note": "A curated summer setlist featuring Sofar artists and performances.", "url": "https://www.youtube.com/embed/oIv_Y2RPQ_A", "cover": "https://sofar-sounds-blog.imgix.net/wp-content/uploads/Web_Ready-Montreal-Photo-by-Lashan.jpg", "genre": "Various", "source": "Sofar Sounds"}, {"title": "GENA: Tiny Desk Concert", "note": "Live Tiny Desk Concert featuring GENA and Karriem Riggins.", "url": "https://www.npr.org/2026/06/04/g-s1-123338/gena-karriem-riggins-live-tiny-desk-concert", "cover": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/2778x1563+0+0/resize/1400/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F8e%2Ff2%2Fd052a53247b9a97b746b897221f2%2Fdsc08804-copy.jpg", "genre": "Jazz/R\u0026B", "source": "NPR Music"}, {"title": "A star soprano and a banjo virtuoso lean into American folk tunes", "note": "Bela Fleck and Ren\u00e9e Fleming discuss their collaborative album of American folk material.", "url": "https://www.youtube.com/embed/PkunVo_uEWY", "cover": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/2969x1670+0+0/resize/1400/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Fd7%2F42%2Fa9614b6f4798b95447d196b4cf38%2Frfbf-credit-madison-thorn.jpg", "genre": "Folk/Classical", "source": "NPR Music"}, {"title": "All Songs Considered: Wet Leg, Vince Staples, Radiohead's Ed O'Brien", "note": "New music roundup featuring Wet Leg, Vince Staples, and Radiohead's Ed O'Brien.", "url": "https://www.npr.org/2026/06/02/nx-s1-5843271/all-songs-considered-wet-leg-vince-staples-radiohead-ed-obrien", "cover": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/2999x1687+0+0/resize/1400/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F39%2F4c%2Fb66ee17f44c78204ce0577f89dc3%2F32b27063-697c-4148-ae43-5889270b6251.jpg", "genre": "Indie/Rock", "source": "NPR Music"}, {"title": "Aldous Harding \u2014 Train on the Island", "note": "Album review of Aldous Harding's Train on the Island", "url": "https://www.youtube.com/embed/vyKaSM1FJ8w", "cover": "https://media.pitchfork.com/photos/69a74be0d195be68418183f5/16:9/w_1280,c_limit/aldous%20harding%20train%20on%20the%20island.png", "genre": "Folk/Country", "source": "Pitchfork"}, {"title": "Taylor Swift \u2014 \"I Knew It, I Knew You\"", "note": "New single from Taylor Swift.", "url": "https://www.stereogum.com/2501269/taylor-swift-i-knew-it-i-knew-you/music", "cover": "https://lede-admin.stereogum.com/wp-content/uploads/sites/64/2026/06/HJvy17OWcAAUXn2.png", "genre": "Pop", "source": "Stereogum"}, {"title": "Tasha \u2014 \"Quick!\"", "note": "New track from Tasha.", "url": "https://www.youtube.com/embed/VdOQlfo23_o", "cover": "https://lede-admin.stereogum.com/wp-content/uploads/sites/64/2026/06/download-12.jpeg", "genre": "Indie/Folk", "source": "Stereogum"}, {"title": "Bedouine \u2014 \"One Thing Right\"", "note": "New song from Bedouine.", "url": "https://www.youtube.com/embed/ytgmufS4bCo", "cover": "https://lede-admin.stereogum.com/wp-content/uploads/sites/64/2026/06/unnamed-2026-06-04T161243.508.png", "genre": "Folk", "source": "Stereogum"}, {"title": "Sweeps Week: May Historical Releases \u0026 Reissues", "note": "Monthly roundup of historical jazz releases and reissues for May", "url": "https://www.jazztimes.com/reviews/albums/sweeps-week-may-historical-releases-reissues/", "cover": "https://www.jazztimes.com/wp-content/uploads/2026/05/collage-May-historical-1-scaled.jpg", "genre": "Jazz", "source": "JazzTimes"}, {"title": "Free-Improvisational Furies: When Stein/Smith/Shead Meets Marilyn Crispell", "note": "Album review of a free improvisation session featuring Marilyn Crispell", "url": "https://www.youtube.com/embed/k1MaZ1UQClA", "cover": "https://www.jazztimes.com/wp-content/uploads/2026/05/collage-Jason-stein-scaled.jpg", "genre": "Free Jazz", "source": "JazzTimes"}, {"title": "Sweeps Week: Top May Jazz Releases, Henkin Edition", "note": "Andrey Henkin's monthly picks for top May jazz album releases", "url": "https://www.jazztimes.com/reviews/albums/sweeps-week-top-may-jazz-releases-henkin-edition/", "cover": "https://www.jazztimes.com/wp-content/uploads/2026/05/collage-Henkin-May-26-scaled.jpg", "genre": "Jazz", "source": "JazzTimes"}, {"title": "Bella White \u2014 'A Sign in the Weather'", "note": "Album review exploring dark emotional themes on Bella White's latest record.", "url": "https://www.nodepression.com/album-review-bella-white-exposes-dark-places-in-the-heart-on-a-sign-in-the-weather/", "cover": "https://storage.ghost.io/c/18/d0/18d08e58-3b1b-4720-ae25-a31b44e69d4b/content/images/2026/06/BellaWhite_AlbumArtwork.jpg", "genre": "Folk/Americana", "source": "No Depression"}, {"title": "Futurebirds \u2014 'Far Out Country'", "note": "Album review of Futurebirds' expansive new country record.", "url": "https://www.youtube.com/embed/viTXBAKmm6w", "cover": "https://storage.ghost.io/c/18/d0/18d08e58-3b1b-4720-ae25-a31b44e69d4b/content/images/size/w1200/2026/06/FB_FOC_cvr.jpg", "genre": "Country/Rock", "source": "No Depression"}, {"title": "Caleb Caudle \u2014 'Heavy Thrill'", "note": "Album review examining Caleb Caudle's blend of country and pop on his new release.", "url": "https://www.youtube.com/embed/6GThBZfEziM", "cover": "https://storage.ghost.io/c/18/d0/18d08e58-3b1b-4720-ae25-a31b44e69d4b/content/images/2026/06/calebcaudleheavythrill.jpg", "genre": "Country/Pop", "source": "No Depression"}], "videos": [], "good_news": [], "discovery": [{"title": "Wiarton Willie Statue in Wiarton, Ontario", "note": "What the crowds gathering in the dark before a Canadian February dawn don't often mention: the original Wiarton Willie died in 1999, just before a scheduled appearance, and his handlers briefly tried to pass off a stuffed impostor as the real thing. Even our most cheerfully absurd traditions, it turns out, have their cover-ups.", "url": "https://www.atlasobscura.com/places/wiarton-willie", "source": "Atlas Obscura", "category": "history"}, {"title": "Vela Spila in Vela Luka, Croatia", "note": "Vela Spila isn't just a pretty cave with a view \u2014 it's one of Europe's longest continuously inhabited sites, sheltering humans for roughly 20,000 years, meaning countless generations climbed that same breathless hill and looked out over the same Adriatic glitter. The wild irises are a bonus.", "url": "https://www.atlasobscura.com/places/vela-spila", "source": "Atlas Obscura", "category": "history"}, {"title": "Curbing Congo\u2019s Ebola outbreak is hampered by unknowns about the virus", "note": "The most quietly unsettling detail in Ebola research is how much the virus's basic behavior \u2014 how it spreads, why some survive and others don't \u2014 still eludes us, meaning every outbreak response is partly improvisation under fire. The unknowns aren't a gap in the textbook; they're a gap in the wall.", "url": "https://www.sciencenews.org/article/ebola-outbreak-congo-unknowns", "source": "Science News", "category": "science"}, {"title": "\u00d6tzi the Iceman\u2019s remains yielded \u2018viable\u2019 yeasts in the lab", "note": "Scientists coaxed living, functional yeast from the 5,300-year-old gut of a frozen Copper Age man \u2014 which means \u00d6tzi's microbiome, suspended in alpine ice for millennia, may yet have things to tell us about who he was and how he lived. Somewhere between archaeology and biology, the dead are still fermenting.", "url": "https://www.sciencenews.org/article/otzi-iceman-viable-yeasts-microbiome", "source": "Science News", "category": "science"}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+document.getElementById('greeting').textContent = DATA.greeting || '';
+
+const PANELS = [
+  {key:'music',     label:'🎵 Music'},
+  {key:'videos',    label:'▶ Watch'},
+  {key:'good_news', label:'🌿 Good News'},
+  {key:'discovery', label:'📜 Discovery'},
+];
+const tabs = document.getElementById('tabs');
+PANELS.forEach((p, i) => {
+  const b = document.createElement('div');
+  b.className = 'tab' + (i === 0 ? ' active' : '');
+  b.textContent = p.label;
+  b.onclick = () => selectTab(p.key, b);
+  tabs.appendChild(b);
+});
+function selectTab(key, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel').forEach(pl =>
+    pl.classList.toggle('active', pl.dataset.panel === key));
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"'`]/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'
+  }[c]));
+}
+function safeUrl(u) {
+  try {
+    const p = new URL(u, location.href);
+    return ['http:','https:','mailto:'].includes(p.protocol) ? p.href : '#';
+  } catch (e) { return '#'; }
+}
+function coverHTML(url, emoji) {
+  return url ? `<img class="cover" src="${esc(safeUrl(url))}" alt="">`
+             : `<div class="cover-tile">${emoji}</div>`;
+}
+function cardHTML(it, emoji) {
+  return `<div class="card"><a href="${esc(safeUrl(it.url))}" target="_blank">${coverHTML(it.cover, emoji)}`
+    + `<div class="body"><div class="badge">${esc(it.source || it.theme || '')}</div>`
+    + `<div class="title">${esc(it.title)}</div><div class="note">${esc(it.note)}</div></div></a></div>`;
+}
+
+// Grids
+function fillGrid(id, items, emoji) {
+  const el = document.getElementById(id);
+  el.innerHTML = items.length
+    ? items.map(it => cardHTML(it, emoji)).join('')
+    : '<div class="empty">Nothing here in this edition.</div>';
+}
+fillGrid('videos-grid', DATA.videos.map(v => ({...v, url:'https://www.youtube.com/watch?v=' + v.video_id, cover:'https://img.youtube.com/vi/' + v.video_id + '/hqdefault.jpg'})), '▶');
+fillGrid('good_news-grid', DATA.good_news, '🌿');
+fillGrid('discovery-grid', DATA.discovery, '📜');
+
+// Music carousel + genre filter
+const GENRES = [...new Set(DATA.music.map(m => (m.genre || '').trim()).filter(Boolean))];
+let activeGenre = null;
+const genresEl = document.getElementById('genres');
+function renderGenres() {
+  const all = [{g:null, label:'All'}].concat(GENRES.map(g => ({g, label:g})));
+  genresEl.innerHTML = all.map(x =>
+    `<div class="genre ${x.g === activeGenre ? 'active' : ''}" data-g="${esc(x.g || '')}">${esc(x.label)}</div>`
+  ).join('');
+  genresEl.querySelectorAll('.genre').forEach(el => el.onclick = () => {
+    activeGenre = el.dataset.g || null; renderGenres(); renderMusic();
+  });
+}
+function renderMusic() {
+  const track = document.getElementById('music-track');
+  const items = activeGenre
+    ? DATA.music.filter(m => (m.genre || '').trim() === activeGenre)
+    : DATA.music;
+  track.innerHTML = items.length
+    ? items.map(it => cardHTML(it, '🎵')).join('')
+    : '<div class="empty">No tracks match that genre in this edition.</div>';
+}
+function slide(dir) {
+  document.getElementById('music-track').scrollBy({left: dir * 260, behavior:'smooth'});
+}
+renderGenres();
+renderMusic();
+</script>
+</body>
+</html>
