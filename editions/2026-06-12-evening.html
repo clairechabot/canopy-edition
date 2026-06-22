@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Curated Canopy — Full Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EEE2;--paper-deep:#E9E1D1;--surface:#FBF7EE;
+    --ink:#20271F;--ink-soft:#4A4A3E;--ink-mute:#7C7565;
+    --forest:#2C3A2B;--moss:#6E7B4B;--moss-deep:#55603A;
+    --clay:#A85A36;--clay-deep:#8E4A2C;--line:#D9CFBC;--line-soft:#E5DCCB;--radius:12px;
+    --serif:'Newsreader',Georgia,'Times New Roman',serif;
+    --sans:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 40px;}
+  .eyebrow{font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--moss-deep);}
+
+  .img,.photo{position:relative;width:100%;overflow:hidden;}
+  .img{background:linear-gradient(135deg,rgba(255,255,255,0.18),rgba(255,255,255,0) 60%),repeating-linear-gradient(135deg,rgba(32,39,31,0.035) 0 2px,transparent 2px 11px),linear-gradient(160deg,var(--ph-a,#C9CBB0),var(--ph-b,#9DA882));border:1px solid rgba(32,39,31,0.10);}
+  .img::after{content:attr(data-label);position:absolute;left:12px;bottom:11px;font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.92);background:rgba(32,39,31,0.32);padding:3px 8px;border-radius:100px;}
+  .img.t0{--ph-a:#D9CFB8;--ph-b:#B3A684;} .img.t1{--ph-a:#D8B59B;--ph-b:#B0764F;}
+  .img.t2{--ph-a:#B7C29A;--ph-b:#7E8C5A;} .img.t3{--ph-a:#7E8C6E;--ph-b:#46553E;}
+  .photo{border:1px solid rgba(32,39,31,0.10);}
+  .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .play{position:absolute;inset:0;margin:auto;width:60px;height:60px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.92);background:rgba(32,39,31,0.16);display:flex;align-items:center;justify-content:center;transition:transform .25s ease,background .25s ease;}
+  .play::after{content:"";margin-left:3px;border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent rgba(255,255,255,0.95);}
+
+  .cover{text-align:center;padding:60px 40px 40px;}
+  .cover .eyebrow{color:var(--clay-deep);margin-bottom:22px;}
+  .cover h1{font-family:var(--serif);font-weight:500;font-size:clamp(46px,8vw,84px);line-height:0.98;letter-spacing:-0.015em;color:var(--forest);}
+  .cover .tagline{font-family:var(--serif);font-style:italic;font-size:clamp(17px,2.4vw,22px);color:var(--ink-soft);margin-top:18px;}
+  .cover .meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px;margin-top:30px;font-size:11.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-mute);}
+  .cover .meta .dot{width:3px;height:3px;border-radius:50%;background:var(--clay);}
+
+  .fern{max-width:720px;margin:0 auto;padding:0 40px 8px;display:flex;gap:22px;align-items:flex-start;}
+  .monogram{flex-shrink:0;width:52px;height:52px;border-radius:50%;border:1px solid var(--moss);color:var(--moss-deep);font-family:var(--serif);font-size:24px;display:flex;align-items:center;justify-content:center;margin-top:6px;}
+  .fern .eyebrow{margin-bottom:9px;}
+  .fern p{font-family:var(--serif);font-size:20px;line-height:1.6;color:var(--ink-soft);}
+  .fern .sign{font-style:italic;color:var(--forest);}
+
+  .almanac{max-width:720px;margin:0 auto;padding:18px 40px 4px;}
+  .almanac .eyebrow{color:var(--moss-deep);margin-bottom:11px;}
+  .almanac p{font-family:var(--serif);font-size:18px;line-height:1.6;color:var(--ink-soft);}
+  .almanac-foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;margin-top:18px;}
+  .almanac-meta{display:flex;align-items:center;gap:12px;font-size:11.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-mute);}
+  .almanac-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--clay);}
+  .chip.static{cursor:default;}
+
+  .hero{margin-top:52px;}
+  .hero-grid,.feature-read{display:grid;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .hero-grid{grid-template-columns:1.5fr 1fr;}
+  .feature-read{grid-template-columns:1fr 1.5fr;margin-top:8px;}
+  .hero-grid .cell,.feature-read .cell{min-height:420px;border-right:1px solid var(--line);}
+  .feature-read .cell{min-height:340px;}
+  .hero-text{padding:44px 48px;display:flex;flex-direction:column;justify-content:center;}
+  .hero-text .eyebrow{color:var(--clay-deep);margin-bottom:18px;}
+  .hero-text h2{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.4vw,40px);line-height:1.1;letter-spacing:-0.01em;color:var(--forest);}
+  .hero-text p{font-size:16.5px;color:var(--ink-soft);margin-top:18px;max-width:42ch;}
+  .textlink{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-size:13px;font-weight:600;letter-spacing:0.04em;color:var(--clay-deep);}
+  .textlink .arr{transition:transform .2s ease;} .textlink:hover .arr{transform:translateX(4px);}
+
+  .tabbar{position:sticky;top:0;z-index:50;background:rgba(244,238,226,0.86);backdrop-filter:blur(10px) saturate(120%);border-bottom:1px solid var(--line);margin-top:56px;}
+  .tabbar-inner{max-width:1120px;margin:0 auto;padding:0 40px;display:flex;align-items:center;gap:28px;height:60px;}
+  .tabmark{font-family:var(--serif);font-size:18px;color:var(--forest);white-space:nowrap;opacity:0;width:0;overflow:hidden;transition:opacity .3s ease;}
+  .tabbar.stuck .tabmark{opacity:1;width:auto;margin-right:8px;}
+  .tabs{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{position:relative;white-space:nowrap;cursor:pointer;padding:19px 14px;font-size:13px;font-weight:600;letter-spacing:0.04em;color:var(--ink-mute);background:none;border:0;font-family:var(--sans);transition:color .2s ease;}
+  .tab:hover{color:var(--ink);} .tab.active{color:var(--forest);}
+  .tab .ix{font-family:var(--serif);font-size:11px;color:var(--moss);margin-right:6px;font-weight:400;}
+  .tab::after{content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:2px;background:var(--clay);transform:scaleX(0);transition:transform .25s ease;}
+  .tab.active::after{transform:scaleX(1);}
+
+  .panel{display:none;padding:56px 0 20px;}
+  .panel.active{display:block;animation:fade .4s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){.panel.active{animation:none;}}
+  .sec-head{margin-bottom:34px;}
+  .sec-head .eyebrow{display:flex;align-items:center;gap:16px;color:var(--clay-deep);}
+  .sec-head .eyebrow::after{content:"";flex:1;height:1px;background:var(--line);}
+  .sec-head h3{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4vw,44px);line-height:1.05;letter-spacing:-0.01em;color:var(--forest);margin-top:16px;}
+  .sec-head .lede{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink-mute);margin-top:10px;max-width:54ch;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:30px;}
+  .chip{cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:0.03em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);transition:all .18s ease;}
+  .chip:hover{border-color:var(--moss);color:var(--forest);} .chip.active{background:var(--forest);border-color:var(--forest);color:var(--paper);}
+
+  /* Horizontal swipe carousels — one scroll-snapping row per section. */
+  .grid{display:flex;gap:26px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:16px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;}
+  .grid::-webkit-scrollbar{height:8px;}
+  .grid::-webkit-scrollbar-thumb{background:var(--line);border-radius:100px;}
+  .grid::-webkit-scrollbar-track{background:transparent;}
+  .card{display:flex;flex-direction:column;flex:0 0 auto;scroll-snap-align:start;}
+  .grid.music .card{width:220px;}
+  .grid.watch .card{width:360px;}
+  .grid.read .card{width:320px;}
+  .card .cv{border-radius:var(--radius);}
+  .card.music .cv{aspect-ratio:1/1;} .card.watch .cv{aspect-ratio:16/9;} .card.read .cv{aspect-ratio:3/2;}
+  .card .cv .play{width:52px;height:52px;} .card:hover .cv .play{transform:scale(1.06);background:rgba(32,39,31,0.32);}
+  .card .meta-line{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:10.5px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--moss-deep);}
+  .card .meta-line .sep{color:var(--line);} .card .meta-line .dur{margin-left:auto;color:var(--ink-mute);letter-spacing:0.08em;}
+  .card h4{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.2;color:var(--forest);margin-top:9px;letter-spacing:-0.005em;}
+  .card.music h4{font-size:19px;}
+  .card .note{font-size:14.5px;color:var(--ink-soft);margin-top:8px;line-height:1.55;}
+  .card .go{margin-top:14px;font-size:12px;font-weight:600;letter-spacing:0.04em;color:var(--clay-deep);display:inline-flex;align-items:center;gap:7px;}
+  .card .go .arr{transition:transform .2s ease;} .card:hover .go .arr{transform:translateX(4px);}
+  .badge{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;border:1px solid var(--line);color:var(--moss-deep);}
+  .empty{color:var(--ink-mute);font-style:italic;font-family:var(--serif);padding:30px 0;}
+
+  footer{margin-top:80px;border-top:1px solid var(--line);padding:50px 40px 60px;text-align:center;}
+  footer .fmark{font-family:var(--serif);font-size:26px;color:var(--forest);}
+  footer .ftag{font-family:var(--serif);font-style:italic;color:var(--ink-mute);margin-top:8px;}
+  footer .links{margin-top:22px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-mute);display:flex;gap:18px;justify-content:center;flex-wrap:wrap;}
+  footer .links a{color:var(--ink-soft);}
+
+  @media (max-width:820px){
+    .hero-grid,.feature-read{grid-template-columns:1fr;}
+    .hero-grid .cell,.feature-read .cell{border-right:0;border-bottom:1px solid var(--line);min-height:280px;}
+    .feature-read .read-cover{order:-1;}
+    .hero-text{padding:34px 0;}
+  }
+  @media (max-width:600px){
+    .wrap,.tabbar-inner{padding-left:22px;padding-right:22px;}
+    .cover{padding:44px 22px 30px;} .fern{padding:0 22px 8px;gap:16px;} .fern p{font-size:18px;}
+    .almanac{padding:14px 22px 4px;} .almanac p{font-size:16.5px;}
+    .hero{margin-top:36px;} .panel{padding-top:40px;} .grid{gap:18px;}
+    .grid.music .card{width:160px;}
+    .grid.watch .card{width:280px;}
+    .grid.read .card{width:260px;}
+    .tabbar-inner{gap:0;} .tab{padding:19px 12px;}
+  }
+</style>
+</head>
+<body>
+  <header class="cover">
+    <div class="eyebrow">Evening Edition &nbsp;&middot;&nbsp; No. 1056 &nbsp;&middot;&nbsp; Fri, June 12, 2026</div>
+    <h1>The Curated Canopy</h1>
+    <div class="tagline">Human stories, good news &amp; the natural world</div>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <section class="fern" id="fern" style="display:none;">
+    <div class="monogram">F</div>
+    <div>
+      <div class="eyebrow">A note from Fern</div>
+      <p><span id="greeting"></span> <span class="sign">Yours, Fern</span></p>
+    </div>
+  </section>
+
+  <section class="almanac" id="almanac" style="display:none;">
+    <div class="eyebrow">From the Garden &middot; Zürich</div>
+    <p id="garden-note"></p>
+    <div class="almanac-foot">
+      <div class="chips" id="garden-season"></div>
+      <div class="almanac-meta" id="garden-meta"></div>
+    </div>
+  </section>
+
+  <div class="wrap hero" id="hero-wrap" style="display:none;">
+    <a class="hero-grid" id="hero" href="#"></a>
+  </div>
+
+  <div class="wrap" id="read-wrap" style="display:none;">
+    <a class="feature-read" id="read" href="#" target="_blank"></a>
+  </div>
+
+  <nav class="tabbar" id="tabbar">
+    <div class="tabbar-inner">
+      <span class="tabmark">Canopy</span>
+      <div class="tabs" id="tabs"></div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section class="panel active" data-panel="music">
+      <div class="sec-head"><div class="eyebrow">Section One</div><h3>The Morning Soundtrack</h3>
+        <div class="lede">Fresh picks from the music world to set the tone for your day.</div></div>
+      <div class="chips" id="genres"></div>
+      <div class="grid music" id="music-grid"></div>
+    </section>
+    <section class="panel" data-panel="watch">
+      <div class="sec-head"><div class="eyebrow">Section Two</div><h3>Worth Watching</h3>
+        <div class="lede">Long, patient films for when you have a little time to spend.</div></div>
+      <div class="grid watch" id="watch-grid"></div>
+    </section>
+    <section class="panel" data-panel="good_news">
+      <div class="sec-head"><div class="eyebrow">Section Three</div><h3>Global Silver Linings</h3>
+        <div class="lede">Stories that remind you the world is still full of good.</div></div>
+      <div class="grid read" id="good_news-grid"></div>
+    </section>
+    <section class="panel" data-panel="discovery">
+      <div class="sec-head"><div class="eyebrow">Section Four</div><h3>From the Archives</h3>
+        <div class="lede">Forgotten places, hidden histories, and the science that rewires how you see the world.</div></div>
+      <div class="grid read" id="discovery-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="fmark">The Curated Canopy</div>
+    <div class="ftag">Gathered twice daily by Fern</div>
+    <div class="links"><a href="#">About</a><a href="../archive.html">The Archive</a><a href="#">Preferences</a><a href="#">Unsubscribe</a></div>
+  </footer>
+
+<script id="data" type="application/json">{"is_am": false, "greeting": "As the last light folds itself away and you finally close the tabs that never deserved to be open, settle in, tonight we have lost libraries, rewired habits, piano sisters, a dog adrift near Norway, and a poet who has thoughts about your anger.", "garden": {"note": "The garden exhales in the long June dusk, roses are at their peak and the air carries that particular sweetness that only comes once a year, if you're paying attention. Tonight the darkness arrives properly, with almost no moon to compete.", "in_season": ["Rosa (climbing \u0026 shrub roses, full bloom)", "Strawberries ripening on the runners", "Sweet peas reaching for their supports", "Deadhead spent alliums to keep things tidy"], "sky_tonight": "With only a 7% crescent hiding below the horizon, the summer Milky Way's core begins to emerge southeast after 23:00, Scorpius low on the horizon is your anchor", "moon_label": "Waning crescent (7% illuminated)"}, "featured_read": {"title": "Poet and Philosopher David Whyte on Anger, Forgiveness, and What Maturity Really Means", "note": "David Whyte dismantles the easy story we tell about forgiveness, that it's a gift to someone else, and rebuilds it as an act of quiet self-enlargement. If you've ever confused letting go with losing, this one will rearrange something.", "url": "https://www.themarginalian.org/2026/06/11/david-whyte-consolations-anger-forgiveness-maturity/", "cover": "https://www.themarginalian.org/wp-content/uploads/2015/05/nutcracker_sendak0.jpg?fit=600%2C315\u0026ssl=1", "source": "The Marginalian"}, "music": [{"title": "4 hands on the keys: The continuing piano adventures of the fearless Lab\u00e8que sisters", "note": "The kind of music that fills a sun-drenched conservatory where time moves slower and every note feels like a private conversation between two people who've known each other forever.", "url": "https://www.youtube.com/embed/uWdsn3sWkGs", "cover": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/5123x2882+276+0/resize/1400/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F2d%2F53%2Ff836357744088c558accc65aaefa%2Fkatia-marielle-labeque-c8a0563-umberto-nicoletti-jpg-crop.jpg", "genre": "", "source": "NPR Music"}, {"title": "Carly Simon Announces First New Album In 18 Years: Hear \u201cHowl\u201d", "note": "Like running into an old friend who's lived a whole life since you last saw them, wiser, weathered, and somehow more magnetic than ever.", "url": "https://www.youtube.com/embed/UTi2kk2Ocp0", "cover": "https://lede-admin.stereogum.com/wp-content/uploads/sites/64/2026/06/820233702942.jpg", "genre": "", "source": "Stereogum"}, {"title": "Elvis Costello Knocks Oasis, Defends Olivia", "note": "The musical equivalent of a bar argument that starts at last call and ends with someone being asked to leave, and loving every second of it.", "url": "https://stereogum.com/2502149/elvis-costello-knocks-oasis-defends-olivia/news/", "cover": "https://lede-admin.stereogum.com/wp-content/uploads/sites/64/2026/06/Elvis-Costello.jpeg", "genre": "", "source": "Stereogum"}, {"title": "Bob Dylan Performs \u201cI Shall Be Released\u201d For The First Time In 18 Years", "note": "A ghost stepping out of the fog to remind you it never left, haunting, unhurried, and heavy with everything unsaid.", "url": "https://www.youtube.com/embed/1rlMz4w5Ifw", "cover": "https://lede-admin.stereogum.com/wp-content/uploads/sites/64/2026/06/Bob-Dylan.jpeg", "genre": "", "source": "Stereogum"}, {"title": "NO DEPRESSION SESSIONS at Chelsea Studios NYC: Joe Pernice", "note": "Late-afternoon melancholy that settles in like a slow exhale, the kind of record born from long drives and longer friendships.", "url": "https://www.youtube.com/embed/IqzvgYhUSdw", "cover": "https://storage.ghost.io/c/18/d0/18d08e58-3b1b-4720-ae25-a31b44e69d4b/content/images/size/w1200/2026/06/JoePernice-ColleenNicholson.jpg", "genre": "", "source": "No Depression"}], "videos": [{"title": "Rise and Fall of the Great Library at Alexandria", "note": "Most people assume the Library of Alexandria was destroyed in a single catastrophic fire, but this video carefully unpacks why that narrative is wrong, the library wasn't one place, didn't end in one moment, and its story is more complicated and interesting than the myth. The History Guy brings welcome precision to a topic usually treated with dramatic vagueness, and you'll walk away with a much clearer picture of what the ancient world actually lost, and what it didn't.", "video_id": "uqIG1n7d0fY", "channel": "The History Guy: History Deserves to Be Remembered", "wild": false}, {"title": "The science of habit: How to rewire the loop running 40% of your day | Charles Duhigg", "note": "Charles Duhigg, who wrote 'The Power of Habit,' goes well beyond the cue-routine-reward loop he's known for, explaining why habits are so resistant to willpower and what the neuroscience actually says about changing them. At 87 minutes this is a serious time commitment, but Duhigg is a precise, unsentimental explainer, this isn't self-help fluff, it's a working model you can apply to the 40% of your day running on autopilot.", "video_id": "ESMglAoD5vM", "channel": "Big Think", "wild": false}, {"title": "The Pill and the Planet - Ian Mudway", "note": "Toxicologist Ian Mudway tackles a tension that rarely gets direct attention: the environmental cost of the pharmaceuticals keeping an aging global population alive, from hormones in waterways to the carbon footprint of polypharmacy. The structured timestamp breakdown signals a rigorous lecture format, and the UK health data on declining healthy lifespan offers a concrete anchor for what's otherwise an abstract policy debate.", "video_id": "7FLjyPTRAtU", "channel": "Gresham College", "wild": false}], "good_news": [{"title": "Dog Rescued After Being Swept Out to Sea on Inflatable Kayak Headed Toward Norway", "note": "A dog adrift at sea on a runaway kayak is the kind of helpless situation that brings out the best in people, and thankfully, it did. This rescue is a reminder that strangers will go out of their way to help a creature in need, even in the most unlikely circumstances.", "url": "https://www.goodnewsnetwork.org/dog-rescued-after-being-swept-out-to-sea-on-inflatable-kayak-headed-toward-norway/", "cover": "https://www.goodnewsnetwork.org/wp-content/uploads/2026/06/Dog-rescued-at-sea-in-inflatible-kayak-Serenity-Farne-Island-Boat-Tours-SWNS.jpg", "source": "Good News Network"}, {"title": "In pictures: the circus artists rewriting the rules of ageing", "note": "These circus artists are proving that creativity, strength, and joy don't have an expiry date. It's a quietly radical reminder that ageing can look like vitality and self-expression rather than withdrawal.", "url": "https://www.positive.news/society/the-circus-artists-rewriting-the-rules-of-ageing/", "cover": "https://www.positive.news/wp-content/uploads/2026/06/Carol-1-scaled-e1781092663500.jpg", "source": "Positive News"}, {"title": "A form he signed at the University of Leeds in 2019 just helped save a woman\u2019s life in America", "note": "A single act of generosity, signing an organ donor form years ago and an ocean away, turned out to be a lifeline for a woman who needed it most. It's a powerful nudge that the small, easy things we do today can matter enormously to someone we'll never meet.", "url": "https://www.upworthy.com/pn-leeds-stem-cell-donor-match-american-woman/", "cover": "https://www.upworthy.com/wp-content/uploads/sites/2/2026/06/Preview-Image-5.png", "source": "Upworthy"}], "discovery": [{"title": "World Famous Talking Bear in Oakhurst, California", "note": "In the foothills of the Sierra Nevada Mountains is the small town of Oakhurst, California. Once a cattle stop and logging town, Oakhurst became known in more recent times as the home of Sierra On-Line, a pioneer in the computer gaming industry. Oakhurst is also a gateway to the southern entrance of Yosemite National Park and calls itself the \u201cCarved Bear Capital of the World.\" Most of Oakhurst's bears are carved from wood repurposed from trees lost to drought or bark beetle infestation.", "url": "https://www.atlasobscura.com/places/world-famous-talking-bear", "cover": "https://img.atlasobscura.com/4Yqz6fjJ9TYYGLgY32XQp9S9ApcqQS2P4Ry8ifcvoMs/rt:fit/w:600/q:81/sm:1/scp:1/ar:1/aHR0cHM6Ly9hdGxh/cy1kZXYuczMuYW1h/em9uYXdzLmNvbS91/cGxvYWRzL3BsYWNl/X2ltYWdlcy9hOGJh/ZjVkMC04MGIxLTQ1/YjMtODExNi1mMTU5/ZjkwZTU3ZWNiMzJl/NzM2Zjc3NGIyMjBm/NGRfSU1HXzQ1NzEu/anBlZw.jpg", "source": "Atlas Obscura", "cat": "History"}, {"title": "Yarm Castle in Stockton-on-Tees, England", "note": "Yarm Castle was built from grey stone in the 1880's by a local David Doughty who once lived in the adjoining house, many years later his son added to it by building Yarm town hall. It has turrets, ramparts and coloured glazed windows which were once illuminated by gas light. Don't go expecting drawbridges and moats and you might have to search a bit to find what is probably best described as a folly.", "url": "https://www.atlasobscura.com/places/yarm-castle", "cover": "https://img.atlasobscura.com/NKc_44AemfFBJvYxdaZG1PnalbtWYkmBfCs8lvVERG8/rt:fit/w:600/q:81/sm:1/scp:1/ar:1/aHR0cHM6Ly9hdGxh/cy1kZXYuczMuYW1h/em9uYXdzLmNvbS91/cGxvYWRzL3BsYWNl/X2ltYWdlcy80MzM1/MGRmMy01NTA3LTQz/OTYtOGZkZC1mMDIw/ODMxMjUyNGVlMTQ1/OWFiM2I5ZDYwNTI1/ZGNfMjAyNi0wNS0x/NV8xMi00Mi00Nl81/ODQyLmpwZw.jpg", "source": "Atlas Obscura", "cat": "History"}, {"title": "Mermaid Tale Trail in Brooksville, Florida", "note": "Scattered throughout Hernando County, the Mermaid Tale Trail is a sprawling scavenger hunt made up of mermaid statues painted by local artists. The project was created to celebrate the 75th anniversary of Weeki Wachee Springs State Park, the famous Florida attraction where performers have staged underwater mermaid shows since 1947. The trail began with 26 statues unveiled in 2022 and has since expanded to more than 35 mermaids spread across Brooksville, Weeki Wachee, Hernando Beach, and beyond.", "url": "https://www.atlasobscura.com/places/mermaid-tale-trail", "cover": "https://img.atlasobscura.com/LiYTL9qGIew6cwgWkH4ULiYr-Fh7aalIPURzchqjHIY/rt:fit/w:600/q:81/sm:1/scp:1/ar:1/aHR0cHM6Ly9hdGxh/cy1kZXYuczMuYW1h/em9uYXdzLmNvbS91/cGxvYWRzL3BsYWNl/X2ltYWdlcy8xYWM0/ZGYzNy0zMzcyLTQ5/NmQtYmNiYy04YzA5/ODkwNGI4YmI4Mjgw/MzMyZjY5ODJjMWFk/YTJfSU1HXzQ5NTIu/anBn.jpg", "source": "Atlas Obscura", "cat": "History"}, {"title": "Wind Chime Memorial Tree in Spring Hill, Florida", "note": "Just off a bicycle trail near Spring Hill, Florida, a live oak sings when the wind moves through it. The Wind Chime Tree stands near the Suncoast Trail right by Anderson Snow Park, with branches that have been decorated with a growing collection of wind chimes. Local school board member and businessman Gus Guadagnino first added chimes in memory of his mother in 1998, and others later added their own.", "url": "https://www.atlasobscura.com/places/wind-chime-memorial-tree", "cover": "https://img.atlasobscura.com/ybeymBlpo67hpxOL-RPDo6couRlRLYb-11Ccg5c4ZLk/rt:fit/w:600/q:81/sm:1/scp:1/ar:1/aHR0cHM6Ly9hdGxh/cy1kZXYuczMuYW1h/em9uYXdzLmNvbS91/cGxvYWRzL3BsYWNl/X2ltYWdlcy8yOWJk/YjA3Mi1hNDNkLTQy/NzAtODg3Zi1lNmQ5/OGNiZDY4YjczMjI2/OTI5ZTU4ZWY0Yzg4/NmVfU2NyZWVuc2hv/dCAyMDI2LTA1LTA2/IGF0IDEyLjM3LjU1/4oCvUE0ucG5n.png", "source": "Atlas Obscura", "cat": "History"}, {"title": "With A.I.'s Help, a Family Realized Their Mysterious Thrift-Store Find Is a Portrait by a Great Scottish Painter", "note": "The oil painting, the work of \"Scottish Colorist\" FCB Cadell, just sold at auction for more than $250,000", "url": "https://www.smithsonianmag.com/smart-news/with-help-from-ai-a-family-realized-their-mysterious-thrift-store-find-is-a-portrait-by-a-great-scottish-painter-180988948/", "cover": "https://th-thumbnailer.cdn-si-edu.com/kAaWLMAhufrNHl4uIRAL02r4Tbc=/fit-in/1600x0/filters:focal(750x500:751x501)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/40/b1/40b16f5a-9862-4527-8ec7-ed11be2f1479/lead_art_painting.jpg", "source": "Smithsonian", "cat": "History"}, {"title": "Researchers Accidentally Discover That Humans Prefer to Turn Counterclockwise. But They Still Have No Idea Why", "note": "The effect transcends factors like culture, gender and handedness, causing the scientists, who were initially studying social distancing behavior, to scratch their heads", "url": "https://www.smithsonianmag.com/smart-news/researchers-accidentally-discover-that-humans-prefer-to-turn-counterclockwise-180988939/", "cover": "https://th-thumbnailer.cdn-si-edu.com/XBNuwxPCIwlRMxNvYIYh1YmUrDw=/fit-in/1600x0/filters:focal(1119x634:1120x635)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/b6/e2/b6e205d4-86a3-447a-bed6-66d8a655a9e8/400280561.jpg", "source": "Smithsonian", "cat": "History"}, {"title": "See a Diamond Planet, an Exploding Star and a Black Hole Up Close in a New Immersive Virtual Reality Experience", "note": "Informed by science from the Smithsonian Astrophysical Observatory and astronomers worldwide, this \u201cdocumentary that you can walk through\u201d visualizes the cosmos in a 3-D introduction to the universe", "url": "https://www.smithsonianmag.com/smithsonian-institution/see-a-diamond-planet-an-exploding-star-and-a-black-hole-up-close-in-a-new-immersive-virtual-reality-experience-180988945/", "cover": "https://th-thumbnailer.cdn-si-edu.com/Y25Qq5B7gKlJam8lUJvEIfYsGbg=/fit-in/1600x0/filters:focal(564x504:565x505)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/81/68/8168a9fb-fbe7-42ab-a056-e3a55b684560/ezgif-4d7e29209eb80dc9.png", "source": "Smithsonian", "cat": "History"}, {"title": "Scientists Discover the World's Largest, Deepest Whale Graveyard, Where Cetacean Remains Have Been Piling Up for Five Million Years", "note": "The massive necropolis, located deep in the southeastern Indian Ocean, is teeming with marine life supported by the whale carcasses, including many suspected new species", "url": "https://www.smithsonianmag.com/smart-news/scientists-discover-the-worlds-largest-deepest-whale-graveyard-where-cetacean-remains-have-been-piling-up-for-five-million-years-180988942/", "cover": "https://th-thumbnailer.cdn-si-edu.com/5nu3ssFZdsvmSMRWTuoeCZqGqeg=/fit-in/1600x0/filters:focal(1063x547:1064x548)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/f5/40/f540bfa6-0c17-4b52-9630-d1418a67bad2/8.jpeg", "source": "Smithsonian", "cat": "History"}, {"title": "A new method could spot fentanyl variants no one has cataloged yet", "note": "Researchers used machine learning to help predict chemical signatures for over 1 billion possible fentanyls, including variants never seen before.", "url": "https://www.sciencenews.org/article/fentanyl-variants-new-detection-method", "cover": "https://www.sciencenews.org/wp-content/uploads/sites/2/2026/06/052926_RB_fentanyl_main.jpg", "source": "Science News", "cat": "Science"}, {"title": "Crossword: Power play", "note": "Solve the crossword from our July 2026 issue, in which we encourage our readers to up their game.", "url": "https://www.sciencenews.org/article/crossword-power-play-july-2026-puzzle", "cover": "https://www.sciencenews.org/wp-content/uploads/sites/2/2026/06/0726_puzzle_feat.jpg", "source": "Science News", "cat": "Science"}, {"title": "Here\u2019s what would happen if you tried to break a photon in half", "note": "A mathematical model shows that attempting to sever a fundamental particle of light could conjure new ones out of thin air.", "url": "https://www.sciencenews.org/article/break-photon-in-half-particle-new-ones", "cover": "https://www.sciencenews.org/wp-content/uploads/sites/2/2026/06/060926_MT_photons_main.jpg", "source": "Science News", "cat": "Science"}, {"title": "No, mastic gum won\u2019t reshape your jaw", "note": "Chewing gum made from mastic resin is a Greek staple that has some benefits for the mouth and gut. But it won\u2019t change your face shape.", "url": "https://www.sciencenews.org/article/mastic-gum-benefits-jaw-antibacterial", "cover": "https://www.sciencenews.org/wp-content/uploads/sites/2/2026/06/061026_TS_masticgum_main.jpg", "source": "Science News", "cat": "Science"}]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = (s,r=document)=>r.querySelector(s);
+const ARR = '<span class="arr">&rarr;</span>';
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function safeUrl(u){try{const p=new URL(u,location.href);return ['http:','https:','mailto:'].includes(p.protocol)?p.href:'#';}catch(e){return '#';}}
+function ytThumb(id){return 'https://img.youtube.com/vi/'+id+'/hqdefault.jpg';}
+function ytWatch(id){return 'https://www.youtube.com/watch?v='+id;}
+
+// cover: real image when present, else a toned placeholder tile
+function cover(url,tone,label,play){
+  const p = play?'<span class="play"></span>':'';
+  if(url) return '<div class="cv photo"><img src="'+esc(safeUrl(url))+'" alt="" loading="lazy">'+p+'</div>';
+  return '<div class="cv img t'+tone+'" data-label="'+label+'">'+p+'</div>';
+}
+
+// Masthead meta + Fern note
+(function(){
+  const bits=[];
+  bits.push(DATA.is_am?'Gathered at dawn':'Gathered at dusk');
+  if(DATA.music.length) bits.push(DATA.music.length+' tracks');
+  if(DATA.videos.length) bits.push(DATA.videos.length+' films');
+  const extra=DATA.good_news.length+DATA.discovery.length;
+  if(extra) bits.push(extra+' stories &amp; finds');
+  $('#meta').innerHTML = bits.map((b,i)=>(i?'<span class="dot"></span>':'')+'<span>'+b+'</span>').join('');
+  if(DATA.greeting){ $('#greeting').textContent = DATA.greeting; $('#fern').style.display=''; }
+})();
+
+// From the Garden almanac
+(function(){
+  const g = DATA.garden; if(!g || !g.note) return;
+  $('#garden-note').textContent = g.note;
+  const season=(g.in_season||[]);
+  $('#garden-season').innerHTML = season.map(s=>'<span class="chip static">'+esc(s)+'</span>').join('');
+  const meta=[]; if(g.moon_label) meta.push(g.moon_label); if(g.sky_tonight) meta.push(g.sky_tonight);
+  $('#garden-meta').innerHTML = meta.map((b,i)=>(i?'<span class="dot"></span>':'')+'<span>'+esc(b)+'</span>').join('');
+  $('#almanac').style.display='';
+})();
+
+// Hero feature = first video
+(function(){
+  const v = DATA.videos[0]; if(!v) return;
+  const kick = "Today's opening" + (v.channel?' &nbsp;&middot;&nbsp; '+esc(v.channel):'');
+  $('#hero').href = v.video_id?esc(safeUrl(ytWatch(v.video_id))):'#';
+  $('#hero').innerHTML =
+    '<div class="cell">'+(v.video_id
+        ? '<div class="photo" style="height:100%"><img src="'+esc(safeUrl(ytThumb(v.video_id)))+'" alt=""><span class="play"></span></div>'
+        : '<div class="img t3" data-label="Video still" style="height:100%"><span class="play"></span></div>')+'</div>'
+    + '<div class="hero-text"><div class="eyebrow">'+kick+'</div><h2>'+esc(v.title)+'</h2>'
+    + '<p>'+esc(v.note)+'</p><span class="textlink">Watch the film '+ARR+'</span></div>';
+  $('#hero-wrap').style.display='';
+})();
+
+// One Good Read = a single featured essay
+(function(){
+  const r = DATA.featured_read; if(!r || !r.title) return;
+  $('#read').href = esc(safeUrl(r.url));
+  $('#read').innerHTML =
+    '<div class="cell read-cover">'+(r.cover
+        ? '<div class="photo" style="height:100%"><img src="'+esc(safeUrl(r.cover))+'" alt="" loading="lazy"></div>'
+        : '<div class="img t1" data-label="One Good Read" style="height:100%"></div>')+'</div>'
+    + '<div class="hero-text"><div class="eyebrow">One Good Read'+(r.source?' &nbsp;&middot;&nbsp; '+esc(r.source):'')+'</div>'
+    + '<h2>'+esc(r.title)+'</h2><p>'+esc(r.note)+'</p>'
+    + '<span class="textlink">Read the essay '+ARR+'</span></div>';
+  $('#read-wrap').style.display='';
+})();
+
+// Tabs
+const TABS=[{k:'music',l:'Soundtrack'},{k:'watch',l:'Watch'},{k:'good_news',l:'Good News'},{k:'discovery',l:'Archives'}];
+const tabsEl=$('#tabs');
+TABS.forEach((t,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.innerHTML='<span class="ix">0'+(i+1)+'</span>'+t.l;
+  b.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===t.k));
+    const top=$('#tabbar').getBoundingClientRect().top+window.scrollY;
+    if(window.scrollY>top) window.scrollTo({top:top,behavior:'smooth'});
+  };
+  tabsEl.appendChild(b);
+});
+
+// Music + genre filter
+const GENRES=[...new Set(DATA.music.map(m=>m.genre).filter(Boolean))];
+let activeGenre=null;
+function renderGenres(){
+  const all=[{g:null,l:'All'}].concat(GENRES.map(g=>({g,l:g})));
+  $('#genres').innerHTML=all.map(x=>'<button class="chip'+(x.g===activeGenre?' active':'')+'" data-g="'+esc(x.g||'')+'">'+esc(x.l)+'</button>').join('');
+  $('#genres').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{activeGenre=c.dataset.g||null;renderGenres();renderMusic();});
+  if(!GENRES.length) $('#genres').innerHTML='';
+}
+function renderMusic(){
+  const items=activeGenre?DATA.music.filter(m=>m.genre===activeGenre):DATA.music;
+  $('#music-grid').innerHTML=items.length?items.map((m,i)=>
+    '<a class="card music" href="'+esc(safeUrl(m.url))+'" target="_blank">'+cover(m.cover,i%4,'Album cover',false)
+    +'<div class="meta-line"><span>'+esc(m.source||'Music')+'</span>'+(m.genre?'<span class="sep">&middot;</span><span>'+esc(m.genre)+'</span>':'')+'</div>'
+    +'<h4>'+esc(m.title)+'</h4><div class="note">'+esc(m.note)+'</div><span class="go">Listen '+ARR+'</span></a>').join('')
+    :'<div class="empty">No tracks in this edition.</div>';
+}
+$('#watch-grid').innerHTML=DATA.videos.length?DATA.videos.map((v,i)=>
+  '<a class="card watch" href="'+(v.video_id?esc(safeUrl(ytWatch(v.video_id))):'#')+'" target="_blank">'+cover(v.video_id?ytThumb(v.video_id):'',i%4,'Video still',true)
+  +'<div class="meta-line"><span>'+esc(v.channel||'Video')+'</span>'+(v.wild?'<span class="sep">&middot;</span><span>Wildcard</span>':'')+'</div>'
+  +'<h4>'+esc(v.title)+'</h4><div class="note">'+esc(v.note)+'</div><span class="go">Watch '+ARR+'</span></a>').join('')
+  :'<div class="empty">No films in this edition.</div>';
+$('#good_news-grid').innerHTML=DATA.good_news.length?DATA.good_news.map((g,i)=>
+  '<a class="card read" href="'+esc(safeUrl(g.url))+'" target="_blank">'+cover(g.cover,i%4,'Feature image',false)
+  +'<div class="meta-line"><span>'+esc(g.source||'Good News')+'</span></div>'
+  +'<h4>'+esc(g.title)+'</h4><div class="note">'+esc(g.note)+'</div><span class="go">Read the story '+ARR+'</span></a>').join('')
+  :'<div class="empty">Nothing here in this edition.</div>';
+$('#discovery-grid').innerHTML=DATA.discovery.length?DATA.discovery.map((d,i)=>
+  '<a class="card read" href="'+esc(safeUrl(d.url))+'" target="_blank">'+cover(d.cover,i%4,'Feature image',false)
+  +'<div class="meta-line">'+(d.cat?'<span class="badge">'+esc(d.cat)+'</span>':'')+'<span>'+esc(d.source||'')+'</span></div>'
+  +'<h4>'+esc(d.title)+'</h4><div class="note">'+esc(d.note)+'</div><span class="go">Read the story '+ARR+'</span></a>').join('')
+  :'<div class="empty">Nothing here in this edition.</div>';
+
+renderGenres(); renderMusic();
+
+const tabbar=$('#tabbar');
+const sentinel=tabbar.offsetTop;
+window.addEventListener('scroll',()=>{tabbar.classList.toggle('stuck',window.scrollY>sentinel+4);},{passive:true});
+</script>
+</body>
+</html>
